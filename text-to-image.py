@@ -36,7 +36,7 @@ def gen_image(prompt:str):
     if not filter_result.get('ok'):
         return None
     try:
-        return img_client.text_to_image(prompt=prompt,negative_prompt=-NEGATIVE,model=MODEL_ID),None
+        return img_client.text_to_image(prompt=prompt,negative_prompt=NEGATIVE,model=MODEL_ID),None
     except Exception as e:
         msg=str(e)
         if 'negative_prompt' in msg or 'unexpected keyword'in msg:
@@ -79,9 +79,9 @@ def main():
         st.code(final_prompt)
         with st.spinner('Generating image'):
             img,err=gen_image(final_prompt)
-       # if err:
-            #st.error(err)
-           # return
+        if err:
+            st.error(err)
+            return
         st.image(img,caption='Generated image',use_container_width=True)
         st.session_state.generated_image=img
     img=st.session_state.get('generated_image')
